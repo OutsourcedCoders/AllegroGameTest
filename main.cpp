@@ -35,14 +35,14 @@ int main(int argc, char** argv) {
     }
     
     if(!al_install_keyboard()){
-        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize the keyboard!\n",
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize the keyboard!",
                 NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return 0;
     }
     
     TestTimer = al_create_timer(1.0 / FPS);
     if(!TestTimer){
-        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to create a timer!\n",
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to create a timer!",
                 NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return 0;
     }
@@ -62,7 +62,7 @@ int main(int argc, char** argv) {
         return 0;
     }
     
-    TestChar = al_load_bitmap("images/test.bmp");
+    TestChar = al_load_bitmap("resources/images/test.bmp");
     
     if(!TestChar){
         al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to create player!",
@@ -75,6 +75,18 @@ int main(int argc, char** argv) {
     al_set_target_bitmap(TestChar);
     
     al_clear_to_color(al_map_rgb(0, 0, 0));
+    
+    al_set_target_bitmap(al_get_backbuffer(TestDisplay));
+    
+    TestEventQ = al_create_event_queue();
+    if(!TestEventQ){
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize event queue!",
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        al_destroy_bitmap(TestChar);
+        al_destroy_display(TestDisplay);
+        al_destroy_timer(TestTimer);
+        return 0;
+    }
     
 //    
 //    al_draw_bitmap(TestCharacter, 200, 200, 0);
