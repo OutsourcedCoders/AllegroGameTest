@@ -42,7 +42,9 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
  ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/alcompat.h \
  ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/platform/alwin.h \
  ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_image.h \
- ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_native_dialog.h
+ ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_native_dialog.h \
+ ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_audio.h \
+ ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_acodec.h
 
 ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro.h:
 
@@ -131,3 +133,7 @@ build/Debug/MinGW-Windows/main.o: main.cpp \
 ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_image.h:
 
 ../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_native_dialog.h:
+
+../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_audio.h:
+
+../../../Desktop/allegro-5.0.10-mingw-4.7.0/include/allegro5/allegro_acodec.h:

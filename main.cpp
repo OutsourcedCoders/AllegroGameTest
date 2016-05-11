@@ -6,6 +6,8 @@
 #include <allegro5/allegro.h>
 #include <allegro5/allegro_image.h>
 #include <allegro5/allegro_native_dialog.h>
+#include <allegro5/allegro_audio.h>
+#include <allegro5/allegro_acodec.h>
 
 using namespace std;
 const float FPS = 60;
@@ -22,6 +24,7 @@ int main(int argc, char** argv) {
     ALLEGRO_EVENT_QUEUE *testeventq = NULL;
     ALLEGRO_TIMER *TestTimer = NULL;
     ALLEGRO_BITMAP *TestChar = NULL;
+    ALLEGRO_SAMPLE *TestSound = NULL;
     float testchar_x = SCREEN_W / 2.0 - TESTCHAR_SIZE / 2.0;
     float testchar_y = SCREEN_H / 2.0 - TESTCHAR_SIZE / 2.0;
     bool key[4] = {false, false, false, false};
@@ -30,6 +33,31 @@ int main(int argc, char** argv) {
     
     if(!al_init()){
         al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize Allegro!",
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        return 0;
+    }
+    
+    if(!al_install_audio()){
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize the audio!",
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        return 0;
+    }
+    
+    if(!al_init_acodec_addon()){
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize audio codecs!",
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        return 0;
+    }
+    
+    if(!al_reserve_samples(1)){
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to reserve sounds!",
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        return 0;
+    }
+    
+    TestSound = al_load_sample("resources/sounds/boop.wav");
+    if(!TestSound){
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Can't find resources/sounds/boop.wav!",
                 NULL, ALLEGRO_MESSAGEBOX_ERROR);
         return 0;
     }
@@ -107,18 +135,22 @@ int main(int argc, char** argv) {
             if(key[KEY_UP] && testchar_y >= 4.0){
                 testchar_y -= 4.0;
                 TestChar = al_load_bitmap("resources/images/playercharup.png"); 
+                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             }
             if(key[KEY_DOWN] && testchar_y <= SCREEN_H - TESTCHAR_SIZE - 4.0){
                 testchar_y += 4.0;
                 TestChar = al_load_bitmap("resources/images/playerchardown.png");
+                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             }
             if(key[KEY_LEFT] && testchar_x >= 4.0){
                 testchar_x -= 4.0;
                 TestChar = al_load_bitmap("resources/images/playercharleft.png");
+                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             }
             if(key[KEY_RIGHT] && testchar_x <= SCREEN_W - TESTCHAR_SIZE - 4.0){
                 testchar_x += 4.0;
                 TestChar = al_load_bitmap("resources/images/playercharright.png");
+                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
             }
             
             redraw = true;
@@ -182,6 +214,7 @@ int main(int argc, char** argv) {
     al_destroy_bitmap(TestChar);
     al_destroy_timer(TestTimer);
     al_destroy_event_queue(testeventq);
+    al_destroy_sample(TestSound);
     
     return 0;
 }
