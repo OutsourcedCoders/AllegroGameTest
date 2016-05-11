@@ -30,7 +30,10 @@ int main(int argc, char** argv) {
     bool key[4] = {false, false, false, false};
     bool redraw = true;
     bool doexit = false;
+    cout << "Welcome to Jasonface900's program.\n";
+    cout << "You'll like this, trust me.";
     
+    //Begin error checks
     if(!al_init()){
         al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize Allegro!",
                 NULL, ALLEGRO_MESSAGEBOX_ERROR);
@@ -98,10 +101,8 @@ int main(int argc, char** argv) {
         al_destroy_timer(TestTimer);
         return 0;
     }
-    
+    //sets edit target to my bitmap named TestChar
     al_set_target_bitmap(TestChar);
-    
-//    al_clear_to_color(al_map_rgb(255, 0, 255));
     
     al_set_target_bitmap(al_get_backbuffer(TestDisplay));
     
@@ -114,6 +115,7 @@ int main(int argc, char** argv) {
         al_destroy_timer(TestTimer);
         return 0;
     }
+    //End error checks
     
     al_register_event_source(testeventq, al_get_display_event_source(TestDisplay));
     
@@ -123,7 +125,7 @@ int main(int argc, char** argv) {
     
     al_clear_to_color(al_map_rgb(0, 0, 0));
     
-    al_flip_display();
+    al_flip_display();//refreshes screen, switching from first frame to second
     
     al_start_timer(TestTimer);
     
@@ -132,25 +134,34 @@ int main(int argc, char** argv) {
         al_wait_for_event(testeventq, &ev);
         
         if(ev.type == ALLEGRO_EVENT_TIMER){
+            //Movement code
             if(key[KEY_UP] && testchar_y >= 4.0){
                 testchar_y -= 4.0;
-                TestChar = al_load_bitmap("resources/images/playercharup.png"); 
-                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                TestChar = al_load_bitmap("resources/images/playercharup.png");
+                cout << "Moved up.\n";
             }
             if(key[KEY_DOWN] && testchar_y <= SCREEN_H - TESTCHAR_SIZE - 4.0){
                 testchar_y += 4.0;
                 TestChar = al_load_bitmap("resources/images/playerchardown.png");
-                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                cout << "Moved down.\n";
             }
             if(key[KEY_LEFT] && testchar_x >= 4.0){
                 testchar_x -= 4.0;
                 TestChar = al_load_bitmap("resources/images/playercharleft.png");
-                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                cout << "Moved left.\n";
             }
             if(key[KEY_RIGHT] && testchar_x <= SCREEN_W - TESTCHAR_SIZE - 4.0){
                 testchar_x += 4.0;
                 TestChar = al_load_bitmap("resources/images/playercharright.png");
+                cout << "Moved right.\n";
+            }
+            //Collision code
+            if(testchar_x >= SCREEN_W - TESTCHAR_SIZE - 4.0 || testchar_y >= SCREEN_H - TESTCHAR_SIZE - 4.0){
                 al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                cout << "You hit the wall. Boop.\n";
+            } else if(testchar_x <= 0 || testchar_y <= 0){
+                al_play_sample(TestSound, 1.0, 0.0, 1.0, ALLEGRO_PLAYMODE_ONCE, NULL);
+                cout << "You hit the wall. Boop.\n";
             }
             
             redraw = true;
@@ -210,6 +221,9 @@ int main(int argc, char** argv) {
             al_flip_display();
         }
     }
+    cout << "Goodbye D:";
+    cout << "Come back later!";
+    
     al_destroy_display(TestDisplay);
     al_destroy_bitmap(TestChar);
     al_destroy_timer(TestTimer);
