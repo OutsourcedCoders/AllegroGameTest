@@ -10,6 +10,7 @@
 #include <allegro5/allegro_acodec.h>
 
 using namespace std;
+
 const float FPS = 60;
 const int SCREEN_W = 640;
 const int SCREEN_H = 480;
@@ -101,6 +102,7 @@ int main(int argc, char** argv) {
         al_destroy_timer(TestTimer);
         return 0;
     }
+    
     //sets edit target to my bitmap named TestChar
     al_set_target_bitmap(TestChar);
     
@@ -221,7 +223,7 @@ int main(int argc, char** argv) {
             al_flip_display();
         }
     }
-    cout << "Goodbye D:";
+    cout << "Goodbye D:\n";
     cout << "Come back later!";
     
     al_destroy_display(TestDisplay);
