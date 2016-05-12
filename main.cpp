@@ -25,6 +25,7 @@ int main(int argc, char** argv) {
     ALLEGRO_EVENT_QUEUE *testeventq = NULL;
     ALLEGRO_TIMER *TestTimer = NULL;
     ALLEGRO_BITMAP *TestChar = NULL;
+    ALLEGRO_BITMAP *TestWorld = NULL;
     ALLEGRO_SAMPLE *TestSound = NULL;
     float testchar_x = SCREEN_W / 2.0 - TESTCHAR_SIZE / 2.0;
     float testchar_y = SCREEN_H / 2.0 - TESTCHAR_SIZE / 2.0;
@@ -32,7 +33,7 @@ int main(int argc, char** argv) {
     bool redraw = true;
     bool doexit = false;
     cout << "Welcome to Jasonface900's program.\n";
-    cout << "You'll like this, trust me.";
+    cout << "You'll like this, trust me.\n";
     
     //Begin error checks
     if(!al_init()){
@@ -103,6 +104,17 @@ int main(int argc, char** argv) {
         return 0;
     }
     
+    TestWorld = al_load_bitmap("resources/images/map.png");
+    
+    if(!TestWorld){
+        al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to create map!!",
+                NULL, ALLEGRO_MESSAGEBOX_ERROR);
+        al_destroy_display(TestDisplay);
+        al_destroy_timer(TestTimer);
+        al_destroy_bitmap(TestChar);
+        return 0;
+    }
+    
     //sets edit target to my bitmap named TestChar
     al_set_target_bitmap(TestChar);
     
@@ -113,10 +125,12 @@ int main(int argc, char** argv) {
         al_show_native_message_box(TestDisplay, "Error", "Error", "Failed to initialize event queue!",
                 NULL, ALLEGRO_MESSAGEBOX_ERROR);
         al_destroy_bitmap(TestChar);
+        al_destroy_bitmap(TestWorld);
         al_destroy_display(TestDisplay);
         al_destroy_timer(TestTimer);
         return 0;
     }
+    
     //End error checks
     
     al_register_event_source(testeventq, al_get_display_event_source(TestDisplay));
@@ -125,7 +139,7 @@ int main(int argc, char** argv) {
     
     al_register_event_source(testeventq, al_get_keyboard_event_source());
     
-    al_clear_to_color(al_map_rgb(0, 0, 0));
+//    al_clear_to_color(al_map_rgb(0, 0, 0));
     
     al_flip_display();//refreshes screen, switching from first frame to second
     
@@ -218,16 +232,27 @@ int main(int argc, char** argv) {
             
             al_clear_to_color(al_map_rgb(0, 0, 0));
             
+            al_set_target_bitmap(TestWorld);
+            al_set_target_bitmap(al_get_backbuffer(TestDisplay));
+            
+            TestWorld = al_load_bitmap("resources/images/map.png");
+            
+            
+            al_set_target_bitmap(TestChar);
+            al_set_target_bitmap(al_get_backbuffer(TestDisplay));
+            
             al_draw_bitmap(TestChar, testchar_x, testchar_y, 0);
             
             al_flip_display();
         }
     }
     cout << "Goodbye D:\n";
-    cout << "Come back later!";
+    cout << "Come back later!\n";
+    cout << "BTW, this is still not final version";
     
     al_destroy_display(TestDisplay);
     al_destroy_bitmap(TestChar);
+    al_destroy_bitmap(TestWorld);
     al_destroy_timer(TestTimer);
     al_destroy_event_queue(testeventq);
     al_destroy_sample(TestSound);
